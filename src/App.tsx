@@ -27,6 +27,8 @@ import SettingsView from './components/SettingsView';
 import AdminManagementView from './components/AdminManagementView';
 import TicketPrintModal from './components/TicketPrintModal';
 import UserLoginModal from './components/UserLoginModal';
+import { PWAInstallButton } from './components/PWAInstallButton';
+import { OfflineIndicator } from './components/OfflineIndicator';
 
 type ActiveView = 'waiter' | 'kitchen' | 'cashier' | 'admin' | 'sheets';
 
@@ -290,6 +292,9 @@ export default function App() {
 
           {/* Quick Controls: Refresh & Sound & User Profile */}
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            {/* PWA Install Button (auto-hides when installed) */}
+            <PWAInstallButton />
+
             {/* User Profile / Switch Button */}
             <button
               type="button"
@@ -542,6 +547,9 @@ export default function App() {
           onPrinted={() => loadData(true)}
         />
       )}
+
+      {/* OFFLINE STATUS TOAST */}
+      <OfflineIndicator />
     </div>
   );
 }
