@@ -1,0 +1,8 @@
+{
+  "name": "Remix RestoComanda - Sistema de Restaurante",
+  "description": "Sistema de restaurante online con backend en Google Sheets, autenticación de mesoneros por PIN, gestión de mesas en tiempo real y comanda electrónica.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
