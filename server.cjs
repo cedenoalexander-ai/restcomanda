@@ -171,9 +171,17 @@ var INITIAL_TABLES = [
   { id: "t-9", name: "Barra 1", capacity: 1, status: "libre" },
   { id: "t-10", name: "Barra 2", capacity: 1, status: "libre" }
 ];
+var DEFAULT_USERS = [
+  { id: "w-1", name: "Carlos Mendoza", username: "carlos", password: "123", role: "mesonero", active: true },
+  { id: "w-2", name: "Elena Ram\xEDrez", username: "elena", password: "123", role: "mesonero", active: true },
+  { id: "k-1", name: "Chef Mario (Cocina)", username: "cocina", password: "123", role: "cocina", active: true },
+  { id: "c-1", name: "Ana Cajera", username: "cajero", password: "123", role: "cajero", active: true },
+  { id: "a-1", name: "Admin Principal", username: "admin", password: "123", role: "admin", active: true }
+];
 var INITIAL_STATE = {
   tables: INITIAL_TABLES,
   menu: INITIAL_MENU,
+  users: DEFAULT_USERS,
   activeOrders: {},
   kitchenTickets: [],
   paymentHistory: [
