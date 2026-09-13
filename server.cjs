@@ -204,6 +204,10 @@ var INITIAL_STATE = {
     scriptUrl: "",
     sheetName: "VENTAS_RESTAURANTE",
     autoSync: true
+  },
+  themeConfig: {
+    mode: "dark",
+    palette: "amber"
   }
 };
 
