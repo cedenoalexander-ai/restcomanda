@@ -208,6 +208,12 @@ var INITIAL_STATE = {
   themeConfig: {
     mode: "dark",
     palette: "amber"
+  },
+  bcvConfig: {
+    rate: 54.5,
+    lastUpdated: (/* @__PURE__ */ new Date()).toISOString(),
+    currencyName: "Bol\xEDvares",
+    symbol: "Bs."
   }
 };
 
