@@ -214,6 +214,10 @@ var INITIAL_STATE = {
     lastUpdated: (/* @__PURE__ */ new Date()).toISOString(),
     currencyName: "Bol\xEDvares",
     symbol: "Bs."
+  },
+  restaurantInfo: {
+    name: "ComandaPro Restaurante",
+    phone: "+58 412 1234567"
   }
 };
 
@@ -665,6 +669,19 @@ app.post("/api/bcv", (req, res) => {
     timestamp: (/* @__PURE__ */ new Date()).toISOString()
   });
   res.json({ success: true, bcvConfig: state.bcvConfig });
+});
+app.post("/api/restaurant-info", (req, res) => {
+  const { name, phone } = req.body;
+  state.restaurantInfo = {
+    name: name && String(name).trim() || state.restaurantInfo?.name || "ComandaPro Restaurante",
+    phone: phone && String(phone).trim() || state.restaurantInfo?.phone || "+58 412 1234567"
+  };
+  broadcast({
+    type: "RESTAURANT_INFO_UPDATED",
+    payload: { restaurantInfo: state.restaurantInfo },
+    timestamp: (/* @__PURE__ */ new Date()).toISOString()
+  });
+  res.json({ success: true, restaurantInfo: state.restaurantInfo });
 });
 app.post("/api/sync-sheet/pending", async (req, res) => {
   if (!state.googleSheetsConfig.scriptUrl) {
