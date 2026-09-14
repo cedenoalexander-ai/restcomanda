@@ -646,6 +646,26 @@ app.post("/api/settings/google-sheets", async (req, res) => {
     testResult
   });
 });
+app.post("/api/bcv", (req, res) => {
+  const { rate } = req.body;
+  const numRate = Number(rate);
+  if (isNaN(numRate) || numRate <= 0) {
+    res.status(400).json({ error: "Tasa BCV inv\xE1lida" });
+    return;
+  }
+  state.bcvConfig = {
+    rate: numRate,
+    lastUpdated: (/* @__PURE__ */ new Date()).toISOString(),
+    currencyName: "Bol\xEDvares",
+    symbol: "Bs."
+  };
+  broadcast({
+    type: "BCV_UPDATED",
+    payload: { bcvConfig: state.bcvConfig },
+    timestamp: (/* @__PURE__ */ new Date()).toISOString()
+  });
+  res.json({ success: true, bcvConfig: state.bcvConfig });
+});
 app.post("/api/sync-sheet/pending", async (req, res) => {
   if (!state.googleSheetsConfig.scriptUrl) {
     res.status(400).json({ error: "No hay URL de Google Apps Script configurada" });
