@@ -1,20 +1,28 @@
 // ComandaPro Service Worker
-const CACHE_NAME = 'comandapro-cache-v1';
+const CACHE_NAME = 'comandapro-cache-v2';
 const PRECACHE_URLS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/pwa-192x192.png',
-  '/pwa-512x512.png',
-  '/apple-touch-icon.png',
-  '/favicon.png',
-  '/icon.svg'
+  './',
+  './index.html',
+  './manifest.json',
+  './pwa-192x192.png',
+  './pwa-512x512.png',
+  './pwa-maskable-512x512.png',
+  './apple-touch-icon.png',
+  './favicon.png',
+  './icon.svg'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(PRECACHE_URLS);
+    caches.open(CACHE_NAME).then(async (cache) => {
+      // Use allSettled so one missing resource won't abort SW installation
+      await Promise.allSettled(
+        PRECACHE_URLS.map((url) =>
+          cache.add(url).catch((err) => {
+            console.warn('Precache non-critical item skipped:', url, err);
+          })
+        )
+      );
     }).then(() => self.skipWaiting())
   );
 });
@@ -71,7 +79,7 @@ self.addEventListener('fetch', (event) => {
         return networkResponse;
       }).catch(() => {
         if (event.request.mode === 'navigate') {
-          return caches.match('/index.html');
+          return caches.match('./index.html') || caches.match('./');
         }
       });
     })
