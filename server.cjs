@@ -24,6 +24,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 // server.ts
 var import_express = __toESM(require("express"), 1);
 var import_path = __toESM(require("path"), 1);
+var import_fs = __toESM(require("fs"), 1);
 var import_vite = require("vite");
 
 // src/data/initialData.ts
@@ -225,7 +226,44 @@ var INITIAL_STATE = {
 var app = (0, import_express.default)();
 var PORT = 3e3;
 app.use(import_express.default.json());
-var state = JSON.parse(JSON.stringify(INITIAL_STATE));
+var STATE_FILE = import_path.default.join(process.cwd(), "server_state.json");
+function loadServerState() {
+  try {
+    if (import_fs.default.existsSync(STATE_FILE)) {
+      const raw = import_fs.default.readFileSync(STATE_FILE, "utf-8");
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === "object" && Array.isArray(parsed.tables)) {
+        return {
+          ...INITIAL_STATE,
+          ...parsed,
+          bcvConfig: {
+            ...INITIAL_STATE.bcvConfig,
+            ...parsed.bcvConfig || {}
+          },
+          restaurantInfo: {
+            ...INITIAL_STATE.restaurantInfo,
+            ...parsed.restaurantInfo || {}
+          },
+          googleSheetsConfig: {
+            ...INITIAL_STATE.googleSheetsConfig,
+            ...parsed.googleSheetsConfig || {}
+          }
+        };
+      }
+    }
+  } catch (err) {
+    console.warn("Could not load server_state.json, falling back to INITIAL_STATE:", err);
+  }
+  return JSON.parse(JSON.stringify(INITIAL_STATE));
+}
+var state = loadServerState();
+function saveServerState() {
+  try {
+    import_fs.default.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2), "utf-8");
+  } catch (err) {
+    console.error("Error writing server_state.json:", err);
+  }
+}
 var sseClients = /* @__PURE__ */ new Set();
 function broadcast(event) {
   const payload = `data: ${JSON.stringify(event)}
@@ -319,6 +357,7 @@ app.post("/api/tables/:id/occupy", (req, res) => {
     table.currentOrderId = orderId;
     state.activeOrders[orderId] = newOrder;
   }
+  saveServerState();
   broadcast({
     type: "TABLES_UPDATED",
     payload: { tables: state.tables, activeOrders: state.activeOrders },
@@ -342,6 +381,7 @@ app.post("/api/tables/:id/release", (req, res) => {
     delete state.activeOrders[table.currentOrderId];
     table.currentOrderId = void 0;
   }
+  saveServerState();
   broadcast({
     type: "TABLES_UPDATED",
     payload: { tables: state.tables, activeOrders: state.activeOrders },
@@ -410,6 +450,7 @@ app.post("/api/orders", (req, res) => {
     items: newOrderItems
   };
   state.kitchenTickets.unshift(ticket);
+  saveServerState();
   broadcast({
     type: "ORDER_UPDATED",
     payload: {
@@ -452,6 +493,7 @@ app.post("/api/kitchen/:ticketId/status", (req, res) => {
       }
     });
   }
+  saveServerState();
   broadcast({
     type: "KITCHEN_UPDATED",
     payload: {
@@ -473,6 +515,7 @@ app.post("/api/tables/:id/request-bill", (req, res) => {
   if (table.currentOrderId && state.activeOrders[table.currentOrderId]) {
     state.activeOrders[table.currentOrderId].status = "por_cobrar";
   }
+  saveServerState();
   broadcast({
     type: "TABLES_UPDATED",
     payload: { tables: state.tables, activeOrders: state.activeOrders },
@@ -545,6 +588,7 @@ app.post("/api/checkout", async (req, res) => {
     }
   }
   state.paymentHistory.unshift(paymentRecord);
+  saveServerState();
   broadcast({
     type: "PAYMENT_PROCESSED",
     payload: {
@@ -574,6 +618,7 @@ app.post("/api/menu", (req, res) => {
     preparationTimeMinutes: Number(preparationTimeMinutes) || 10
   };
   state.menu.push(newItem);
+  saveServerState();
   broadcast({
     type: "MENU_UPDATED",
     payload: { menu: state.menu },
@@ -593,6 +638,7 @@ app.put("/api/menu/:id", (req, res) => {
     ...req.body,
     price: req.body.price !== void 0 ? Number(req.body.price) : state.menu[itemIndex].price
   };
+  saveServerState();
   broadcast({
     type: "MENU_UPDATED",
     payload: { menu: state.menu },
@@ -603,6 +649,7 @@ app.put("/api/menu/:id", (req, res) => {
 app.delete("/api/menu/:id", (req, res) => {
   const { id } = req.params;
   state.menu = state.menu.filter((m) => m.id !== id);
+  saveServerState();
   broadcast({
     type: "MENU_UPDATED",
     payload: { menu: state.menu },
@@ -619,6 +666,7 @@ app.post("/api/tables", (req, res) => {
     status: "libre"
   };
   state.tables.push(newTable);
+  saveServerState();
   broadcast({
     type: "TABLES_UPDATED",
     payload: { tables: state.tables },
@@ -631,6 +679,7 @@ app.post("/api/settings/google-sheets", async (req, res) => {
   state.googleSheetsConfig.scriptUrl = scriptUrl !== void 0 ? scriptUrl.trim() : state.googleSheetsConfig.scriptUrl;
   state.googleSheetsConfig.sheetName = sheetName || state.googleSheetsConfig.sheetName;
   state.googleSheetsConfig.autoSync = autoSync !== void 0 ? !!autoSync : state.googleSheetsConfig.autoSync;
+  saveServerState();
   let testResult = null;
   if (state.googleSheetsConfig.scriptUrl) {
     try {
@@ -644,6 +693,11 @@ app.post("/api/settings/google-sheets", async (req, res) => {
       testResult = { status: "error", message: err.message };
     }
   }
+  broadcast({
+    type: "INIT_STATE",
+    payload: state,
+    timestamp: (/* @__PURE__ */ new Date()).toISOString()
+  });
   res.json({
     success: true,
     config: state.googleSheetsConfig,
@@ -651,7 +705,7 @@ app.post("/api/settings/google-sheets", async (req, res) => {
   });
 });
 app.post("/api/bcv", (req, res) => {
-  const { rate } = req.body;
+  const { rate, restaurantName, restaurantPhone, name, phone } = req.body;
   const numRate = Number(rate);
   if (isNaN(numRate) || numRate <= 0) {
     res.status(400).json({ error: "Tasa BCV inv\xE1lida" });
@@ -663,25 +717,46 @@ app.post("/api/bcv", (req, res) => {
     currencyName: "Bol\xEDvares",
     symbol: "Bs."
   };
+  const finalName = restaurantName || name;
+  const finalPhone = restaurantPhone || phone;
+  if (finalName || finalPhone) {
+    state.restaurantInfo = {
+      name: finalName && String(finalName).trim() || state.restaurantInfo?.name || "ComandaPro Restaurante",
+      phone: finalPhone && String(finalPhone).trim() || state.restaurantInfo?.phone || "+58 412 1234567"
+    };
+  }
+  saveServerState();
   broadcast({
     type: "BCV_UPDATED",
-    payload: { bcvConfig: state.bcvConfig },
+    payload: { bcvConfig: state.bcvConfig, restaurantInfo: state.restaurantInfo },
     timestamp: (/* @__PURE__ */ new Date()).toISOString()
   });
-  res.json({ success: true, bcvConfig: state.bcvConfig });
+  res.json({ success: true, bcvConfig: state.bcvConfig, restaurantInfo: state.restaurantInfo });
 });
 app.post("/api/restaurant-info", (req, res) => {
-  const { name, phone } = req.body;
+  const { name, phone, rate } = req.body;
   state.restaurantInfo = {
     name: name && String(name).trim() || state.restaurantInfo?.name || "ComandaPro Restaurante",
     phone: phone && String(phone).trim() || state.restaurantInfo?.phone || "+58 412 1234567"
   };
+  if (rate) {
+    const numRate = Number(rate);
+    if (!isNaN(numRate) && numRate > 0) {
+      state.bcvConfig = {
+        rate: numRate,
+        lastUpdated: (/* @__PURE__ */ new Date()).toISOString(),
+        currencyName: "Bol\xEDvares",
+        symbol: "Bs."
+      };
+    }
+  }
+  saveServerState();
   broadcast({
     type: "RESTAURANT_INFO_UPDATED",
-    payload: { restaurantInfo: state.restaurantInfo },
+    payload: { restaurantInfo: state.restaurantInfo, bcvConfig: state.bcvConfig },
     timestamp: (/* @__PURE__ */ new Date()).toISOString()
   });
-  res.json({ success: true, restaurantInfo: state.restaurantInfo });
+  res.json({ success: true, restaurantInfo: state.restaurantInfo, bcvConfig: state.bcvConfig });
 });
 app.post("/api/sync-sheet/pending", async (req, res) => {
   if (!state.googleSheetsConfig.scriptUrl) {
@@ -726,6 +801,7 @@ app.post("/api/reset-demo", (req, res) => {
   const currentSheetsConfig = state.googleSheetsConfig;
   state = JSON.parse(JSON.stringify(INITIAL_STATE));
   state.googleSheetsConfig = currentSheetsConfig;
+  saveServerState();
   broadcast({
     type: "INIT_STATE",
     payload: state,
