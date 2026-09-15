@@ -810,6 +810,7 @@ app.post("/api/reset-demo", (req, res) => {
   });
   res.json({ success: true, state });
 });
+app.use(import_express.default.static(import_path.default.join(process.cwd(), "public")));
 async function start() {
   if (process.env.NODE_ENV !== "production") {
     const vite = await (0, import_vite.createServer)({
