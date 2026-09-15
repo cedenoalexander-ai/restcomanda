@@ -177,7 +177,8 @@ var DEFAULT_USERS = [
   { id: "w-2", name: "Elena Ram\xEDrez", username: "elena", password: "123", role: "mesonero", active: true },
   { id: "k-1", name: "Chef Mario (Cocina)", username: "cocina", password: "123", role: "cocina", active: true },
   { id: "c-1", name: "Ana Cajera", username: "cajero", password: "123", role: "cajero", active: true },
-  { id: "a-1", name: "Admin Principal", username: "admin", password: "123", role: "admin", active: true }
+  { id: "a-1", name: "Admin Principal", username: "admin", password: "123", role: "admin", active: true },
+  { id: "d-1", name: "Desarrollador", username: "desarrollador", password: "123", role: "admin", active: true }
 ];
 var INITIAL_STATE = {
   tables: INITIAL_TABLES,
