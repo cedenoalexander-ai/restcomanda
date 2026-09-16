@@ -425,6 +425,7 @@ app.post("/api/orders", (req, res) => {
   order.totalRounds = nextRound;
   order.status = "en_cocina";
   order.updatedAt = (/* @__PURE__ */ new Date()).toISOString();
+  const isAdditionalOrder = nextRound > 1 || order.items && order.items.length > 0;
   const newOrderItems = items.map((item, idx) => ({
     id: `item-${Date.now()}-${idx}`,
     menuItemId: item.menuItemId,
@@ -433,6 +434,7 @@ app.post("/api/orders", (req, res) => {
     quantity: item.quantity,
     notes: item.notes || "",
     roundNumber: nextRound,
+    isAdditional: isAdditionalOrder,
     status: "en_cola",
     addedAt: (/* @__PURE__ */ new Date()).toISOString()
   }));
@@ -445,7 +447,7 @@ app.post("/api/orders", (req, res) => {
     tableName: table.name,
     waiterName,
     roundNumber: nextRound,
-    isAdditional: nextRound > 1,
+    isAdditional: isAdditionalOrder,
     createdAt: (/* @__PURE__ */ new Date()).toISOString(),
     status: "en_cola",
     items: newOrderItems
