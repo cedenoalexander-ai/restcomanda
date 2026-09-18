@@ -1,51 +1,30 @@
 {
-  "id": "./",
-  "name": "ComandaPro - Sistema Restaurante & Cocina",
-  "short_name": "ComandaPro",
-  "description": "Sistema de comandas gastronómico en tiempo real para mesoneros, cocina, caja y administración con sincronización instantánea y backend Google Sheets.",
+  "name": "iMtec POS - Sistema de Ventas y Cobranzas",
+  "short_name": "iMtec POS",
+  "description": "Sistema de punto de venta (POS), facturación multimoneda (USD y Bs BCV), cuentas por cobrar, cuentas por pagar y control de inventario sincronizado.",
   "start_url": "./",
-  "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#020617",
-  "theme_color": "#ea580c",
-  "categories": ["business", "food", "productivity", "utilities"],
+  "background_color": "#2563eb",
+  "theme_color": "#2563eb",
   "icons": [
     {
-      "src": "favicon-32x32.png",
-      "sizes": "32x32",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "favicon.png",
-      "sizes": "64x64",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "pwa-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "pwa-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "pwa-maskable-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "icon.svg",
+      "src": "./icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any"
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
