@@ -203,7 +203,7 @@ var INITIAL_STATE = {
     }
   ],
   googleSheetsConfig: {
-    scriptUrl: "",
+    scriptUrl: "https://script.google.com/macros/s/AKfycbw8kG8U51aXVtHSuhinK4CYx4VBaJPsxdGwW1ANqje5c7j9fZ0be_rZNf32c6gRn1kK/exec",
     sheetName: "VENTAS_RESTAURANTE",
     autoSync: true
   },
