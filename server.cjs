@@ -43,6 +43,19 @@ var INITIAL_MENU = [
   },
   // Plato Principal
   {
+    id: "m-pollo-asado-1",
+    name: "Pollo Asado a las Brasas",
+    description: "Pollo entero asado a la le\xF1a, jugoso y dorado. Incluye selecci\xF3n de 3 contornos a elegir.",
+    price: 12,
+    category: "Plato Principal",
+    available: true,
+    image: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=400&q=80",
+    preparationTimeMinutes: 15,
+    frequentNotes: ["Espagueti", "Yuca", "Ensalada", "Papas fritas", "Pur\xE9", "Arroz blanco"],
+    indicacionesFrecuentes: ["Espagueti", "Yuca", "Ensalada", "Papas fritas", "Pur\xE9", "Arroz blanco"],
+    contornos: ["Espagueti", "Yuca", "Ensalada", "Papas fritas", "Pur\xE9", "Arroz blanco"]
+  },
+  {
     id: "m-pizza-1",
     name: "Pizza Familiar",
     description: "ingredientes, salsa, queso mozzarella, jamon, maiz",
