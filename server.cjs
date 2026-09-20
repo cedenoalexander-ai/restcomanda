@@ -29,148 +29,169 @@ var import_vite = require("vite");
 
 // src/data/initialData.ts
 var INITIAL_MENU = [
+  // Sopas
+  {
+    id: "m-soup-1",
+    name: "Sopa de Res",
+    description: "Tradicional sopa de costilla y res con verduras frescas, cilantro y yuca",
+    price: 4,
+    category: "Sopas",
+    available: true,
+    image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=400&q=80",
+    preparationTimeMinutes: 8,
+    frequentNotes: ["Sin cilantro", "Poco picante", "Caliente", "Sin yuca", "Con lim\xF3n extra"]
+  },
+  // Plato Principal
+  {
+    id: "m-pizza-1",
+    name: "Pizza Familiar",
+    description: "ingredientes, salsa, queso mozzarella, jamon, maiz",
+    price: 10,
+    category: "Plato Principal",
+    available: true,
+    image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=400&q=80",
+    preparationTimeMinutes: 15,
+    frequentNotes: ["Sin ma\xEDz", "Bien dorada", "Corte en 8 pedazos", "Orilla crocante", "Para llevar"]
+  },
+  {
+    id: "m-pabellon-1",
+    name: "Pabell\xF3n Criollo Especial",
+    description: "Carne mechada tierna, arroz blanco, caraotas negras, tajadas de pl\xE1tano maduro y queso blanco rallado",
+    price: 11,
+    category: "Plato Principal",
+    available: true,
+    image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=400&q=80",
+    preparationTimeMinutes: 14,
+    frequentNotes: ["Sin tajadas", "Caraotas sin queso", "Arroz extra", "Carne bien jugosa", "Tajadas bien doradas"]
+  },
+  {
+    id: "m-burger-1",
+    name: "Hamburguesa Angus Especial",
+    description: "Carne Angus 200g, queso cheddar, tocineta crujiente, cebolla caramelizada y papas fritas",
+    price: 12.5,
+    category: "Plato Principal",
+    available: true,
+    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80",
+    preparationTimeMinutes: 15,
+    frequentNotes: ["Sin cebolla", "T\xE9rmino medio", "Bien cocida", "Salsa aparte", "Sin tocineta", "Papas bien crocantes"]
+  },
+  {
+    id: "m-churrasco-1",
+    name: "Churrasco Santa B\xE1rbara (350g)",
+    description: "Corte de res jugoso a la parrilla con yuca frita, chimichurri y ensalada fresca",
+    price: 16,
+    category: "Plato Principal",
+    available: true,
+    image: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=400&q=80",
+    preparationTimeMinutes: 18,
+    frequentNotes: ["T\xE9rmino medio", "Tres cuartos", "Bien cocido", "Chimichurri aparte", "Yuca sancochada", "Poca sal"]
+  },
+  // Desayunos
+  {
+    id: "m-empanadas-1",
+    name: "Empanadas",
+    description: "Empanadas de carne mechada, pollo o queso",
+    price: 2,
+    category: "Desayunos",
+    available: true,
+    image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=400&q=80",
+    preparationTimeMinutes: 8,
+    frequentNotes: ["De carne mechada", "De pollo", "De queso blanco", "Bien tostada", "Con guasacaca"]
+  },
+  {
+    id: "m-arepas-1",
+    name: "Arepas",
+    description: "De reina Pepiada, queso amarillo, carne mechada, pollo",
+    price: 2.5,
+    category: "Desayunos",
+    available: true,
+    image: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=400&q=80",
+    preparationTimeMinutes: 10,
+    frequentNotes: ["Reina Pepiada", "Carne Mechada con Queso", "Asada bien tostada", "Sin mantequilla", "Poco relleno"]
+  },
+  {
+    id: "m-cachapas-1",
+    name: "Cachapas",
+    description: "queso de mano y cochino",
+    price: 5,
+    category: "Desayunos",
+    available: true,
+    image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=400&q=80",
+    preparationTimeMinutes: 12,
+    frequentNotes: ["Con cochino frito", "Solo queso de mano", "Mantequilla extra", "Doble queso"]
+  },
   // Entradas
   {
-    id: "m-1",
+    id: "m-tequenos-1",
     name: "Teque\xF1os Gourmet (6 uds)",
     description: "Crujientes deditos de queso blanco con salsa t\xE1rtara de la casa",
     price: 6.5,
     category: "Entradas",
     available: true,
-    preparationTimeMinutes: 10
-  },
-  {
-    id: "m-2",
-    name: "Ceviche Cl\xE1sico",
-    description: "Pescado blanco fresco marinado en lima, cebolla morada, cilantro y ma\xEDz",
-    price: 9,
-    category: "Entradas",
-    available: true,
-    preparationTimeMinutes: 12
-  },
-  {
-    id: "m-3",
-    name: "Empanaditas de Caz\xF3n y Queso (4 uds)",
-    description: "Mini empanadas crocantes con guiso de caz\xF3n oriental y queso gouda",
-    price: 5.5,
-    category: "Entradas",
-    available: true,
-    preparationTimeMinutes: 8
-  },
-  // Platos Fuertes
-  {
-    id: "m-4",
-    name: "Hamburguesa Angus Especial",
-    description: "Carne Angus 200g, queso cheddar, tocineta crujiente, cebolla caramelizada y papas fritas",
-    price: 12.5,
-    category: "Platos Fuertes",
-    available: true,
-    preparationTimeMinutes: 15
-  },
-  {
-    id: "m-5",
-    name: "Pabell\xF3n Criollo Especial",
-    description: "Carne mechada tierna, arroz blanco, caraotas negras, tajadas de pl\xE1tano maduro y queso blanco rallado",
-    price: 11,
-    category: "Platos Fuertes",
-    available: true,
-    preparationTimeMinutes: 14
-  },
-  {
-    id: "m-6",
-    name: "Churrasco Santa B\xE1rbara (350g)",
-    description: "Corte de res jugoso a la parrilla con yuca frita, chimichurri y ensalada fresca",
-    price: 16,
-    category: "Platos Fuertes",
-    available: true,
-    preparationTimeMinutes: 18
-  },
-  {
-    id: "m-7",
-    name: "Pasta Carbonara Artesanal",
-    description: "Fettuccine con panceta crujiente, yema de huevo, queso parmesano reggiano y pimienta negra",
-    price: 10.5,
-    category: "Platos Fuertes",
-    available: true,
-    preparationTimeMinutes: 12
-  },
-  {
-    id: "m-8",
-    name: "Pollo a la Canasta con Papas",
-    description: "Piezas de pollo empanizadas y crujientes con papas fritas y ensalada coleslaw",
-    price: 9.5,
-    category: "Platos Fuertes",
-    available: true,
-    preparationTimeMinutes: 14
+    image: "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=400&q=80",
+    preparationTimeMinutes: 10,
+    frequentNotes: ["Salsa t\xE1rtara extra", "Bien dorados", "Salsa de ajo aparte", "Para compartir"]
   },
   // Bebidas
   {
-    id: "m-9",
+    id: "m-refresco-1",
+    name: "Refresco de 2Lts Coacola",
+    description: "Refresco 2 litros bien fr\xEDo para compartir",
+    price: 1.8,
+    category: "Bebidas",
+    available: true,
+    image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=400&q=80",
+    preparationTimeMinutes: 2,
+    frequentNotes: ["Vasos con hielo", "Sin hielo", "Vaso extra", "Pitillos / Popotes"]
+  },
+  {
+    id: "m-papelon-1",
     name: "Papel\xF3n con Lim\xF3n Fr\xEDo",
     description: "Bebida tradicional refrescante con lim\xF3n reci\xE9n exprimido y hielo",
     price: 2.5,
     category: "Bebidas",
     available: true,
-    preparationTimeMinutes: 3
+    image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=400&q=80",
+    preparationTimeMinutes: 3,
+    frequentNotes: ["Bien fr\xEDo", "Sin hielo", "Con poco lim\xF3n", "Lim\xF3n extra"]
   },
+  // Postre
   {
-    id: "m-10",
-    name: "Jugo Natural de Maracuy\xE1 / Parchita",
-    description: "Jugo natural espeso y refrescante",
-    price: 3,
-    category: "Bebidas",
-    available: true,
-    preparationTimeMinutes: 4
-  },
-  {
-    id: "m-11",
-    name: "Cerveza Polar Pilsen / Zulia",
-    description: "Cerveza nacional bien fr\xEDa (330ml)",
-    price: 2,
-    category: "Bebidas",
-    available: true,
-    preparationTimeMinutes: 2
-  },
-  {
-    id: "m-12",
-    name: "Refresco Lata (Coca-Cola / Sprite)",
-    description: "Lata 355ml fr\xEDa con vaso y hielo",
-    price: 2,
-    category: "Bebidas",
-    available: true,
-    preparationTimeMinutes: 2
-  },
-  // Postres
-  {
-    id: "m-13",
+    id: "m-quesillo-1",
     name: "Quesillo Casero Tradicional",
     description: "Flan venezolano con caramelo dorado oscuro y toque de vainilla",
     price: 4.5,
-    category: "Postres",
+    category: "Postre",
     available: true,
-    preparationTimeMinutes: 3
+    image: "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=400&q=80",
+    preparationTimeMinutes: 3,
+    frequentNotes: ["Caramelo extra", "Para llevar", "Con 2 cucharitas"]
   },
+  // Ensaladas
   {
-    id: "m-14",
-    name: "Tres Leches de Maracuy\xE1",
-    description: "Bizcocho esponjoso ba\xF1ado en tres leches con mousse de maracuy\xE1",
-    price: 5,
-    category: "Postres",
+    id: "m-salad-1",
+    name: "Ensalada C\xE9sar con Pollo",
+    description: "Lechuga romana fresca, pechuga a la plancha, crutones, parmesano y aderezo c\xE9sar",
+    price: 7.5,
+    category: "Ensaladas",
     available: true,
-    preparationTimeMinutes: 4
+    image: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=400&q=80",
+    preparationTimeMinutes: 8,
+    frequentNotes: ["Aderezo aparte", "Sin crutones", "Parmesano extra", "Pollo bien dorado"]
   }
 ];
 var INITIAL_TABLES = [
-  { id: "t-1", name: "Mesa 1", capacity: 2, status: "libre" },
-  { id: "t-2", name: "Mesa 2", capacity: 4, status: "libre" },
-  { id: "t-3", name: "Mesa 3", capacity: 4, status: "libre" },
-  { id: "t-4", name: "Mesa 4", capacity: 6, status: "libre" },
-  { id: "t-5", name: "Mesa 5", capacity: 2, status: "libre" },
-  { id: "t-6", name: "Mesa 6", capacity: 4, status: "libre" },
-  { id: "t-7", name: "Mesa 7 (Terraza)", capacity: 4, status: "libre" },
-  { id: "t-8", name: "Mesa 8 (Terraza)", capacity: 6, status: "libre" },
-  { id: "t-9", name: "Barra 1", capacity: 1, status: "libre" },
-  { id: "t-10", name: "Barra 2", capacity: 1, status: "libre" }
+  { id: "t-1", name: "Mesa 1", capacity: 4, status: "libre", zone: "Sal\xF3n Principal" },
+  { id: "t-2", name: "Mesa 2", capacity: 2, status: "libre", zone: "Sal\xF3n Principal" },
+  { id: "t-3", name: "Mesa 3", capacity: 2, status: "libre", zone: "Sal\xF3n Principal" },
+  { id: "t-4", name: "Mesa 4", capacity: 6, status: "libre", zone: "Sal\xF3n Principal" },
+  { id: "t-5", name: "Mesa 5", capacity: 2, status: "libre", zone: "Sal\xF3n Principal" },
+  { id: "t-6", name: "Mesa 6", capacity: 4, status: "libre", zone: "Sal\xF3n Principal" },
+  { id: "t-7", name: "Mesa 7 (VIP)", capacity: 8, status: "libre", zone: "\xC1rea VIP" },
+  { id: "t-8", name: "Terraza 1", capacity: 4, status: "libre", zone: "Terraza al Aire Libre" },
+  { id: "t-9", name: "Terraza 2", capacity: 4, status: "libre", zone: "Terraza al Aire Libre" },
+  { id: "t-10", name: "Barra 1", capacity: 2, status: "libre", zone: "Barra de Tragos" },
+  { id: "t-11", name: "Barra 2", capacity: 2, status: "libre", zone: "Barra de Tragos" }
 ];
 var DEFAULT_USERS = [
   { id: "w-1", name: "Carlos Mendoza", username: "carlos", password: "123", role: "mesonero", active: true },
@@ -220,6 +241,11 @@ var INITIAL_STATE = {
   restaurantInfo: {
     name: "ComandaPro Restaurante",
     phone: "+58 412 1234567"
+  },
+  printerConfig: {
+    type: "80mm",
+    density: "normal",
+    lastUpdated: (/* @__PURE__ */ new Date()).toISOString()
   }
 };
 
